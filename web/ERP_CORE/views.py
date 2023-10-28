@@ -16,6 +16,7 @@ def index_view(request):
     return render(request, 'index.html', params)
 
 
-def callback_data(request):
-
+def chirpstack_callback_view(request):
+    print(request.POST)
+    print(request.GET)
     return HttpResponse(status=200)

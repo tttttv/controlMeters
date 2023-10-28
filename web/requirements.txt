@@ -13,3 +13,4 @@ celery
 redis
 django-celery-results
 requests
+chirpstack_api
