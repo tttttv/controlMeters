@@ -5,7 +5,7 @@ services:
     command: sh -c "ls &&
                     mkdir -p static &&
                     python manage.py collectstatic --no-input &&
-                    gunicorn --bind 0.0.0.0:8000 --workers 2 --log-level debug --timeout 60 fleshlight.wsgi:application --reload"
+                    gunicorn --bind 0.0.0.0:8000 --workers 2 --log-level debug --timeout 60 controlMeters.wsgi:application --reload"
     ports:
       - "8000:8000"
     environment:
