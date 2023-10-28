@@ -1,7 +1,8 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
-from web.ERP_CORE.models import WaterMeter, MeterData
+from ERP_CORE.models import WaterMeter, MeterData
 
 
 def index_view(request):
@@ -13,3 +14,8 @@ def index_view(request):
         'meters_data': meters_data,
     }
     return render(request, 'index.html', params)
+
+
+def callback_data(request):
+
+    return HttpResponse(status=200)
