@@ -16,8 +16,8 @@ def index_view(request):
     }
     return render(request, 'index.html', params)
 
-def unmarshal(self, body, pl):
-    if self.json:
+def unmarshal(body, pl):
+    if False:
         return Parse(body, pl)
 
     pl.ParseFromString(body)
@@ -28,7 +28,7 @@ def chirpstack_callback_view(request):
     print(request.GET)
     print(request.body)
 
-    
+
     body = request.body
     try:
         up = unmarshal(body, integration.UplinkEvent())
