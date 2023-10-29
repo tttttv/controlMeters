@@ -2,6 +2,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+
 from ERP_CORE.models import WaterMeter, MeterData
 from chirpstack_api import integration
 from google.protobuf.json_format import Parse
@@ -23,6 +25,7 @@ def unmarshal(body, pl):
     pl.ParseFromString(body)
     return pl
 
+@csrf_exempt
 def chirpstack_callback_view(request):
     print(request.POST)
     print(request.GET)
