@@ -34,10 +34,12 @@ def chirpstack_callback_view(request):
 
     body = request.body
 
-    up = unmarshal(body, integration.UplinkEvent())
-    print("Uplink received from: %s with payload: %s" % (up.device_info.dev_eui, up.data.hex()))
+    if request.GET['event'] == 'join':
+        join = unmarshal(body, integration.JoinEvent())
+        print("Device: %s joined with DevAddr: %s" % (join.device_info.dev_eui, join.dev_addr))
+    else:
+        up = unmarshal(body, integration.UplinkEvent())
+        print("Uplink received from: %s with payload: %s" % (up.device_info.dev_eui, up.data.hex()))
 
-    join = unmarshal(body, integration.JoinEvent())
-    print("Device: %s joined with DevAddr: %s" % (join.device_info.dev_eui, join.dev_addr))
 
     return HttpResponse(status=200)

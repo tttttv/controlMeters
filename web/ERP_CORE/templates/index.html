@@ -13,5 +13,29 @@
 {% for data in meters_data %}
     {{ data.meter.uid }}, {{ data.meter.value }}, {{ data.meter.dt }} </br>
 {% endfor %}}
+
+
+<form>
+    <select name="auth_method">
+        <option value="key" selected>ключ</option>
+        <option value="pass">пароль</option>
+    </select>
+    <input style="display: none">
+
+    <button type="submit"></button>
+</form>
+
+<script>
+    {
+        inputs: [
+            {
+                'name': 'Метод авторизации'
+                'options': [
+                    ''
+                ]
+            }
+        ]
+    }
+</script>
 </body>
 </html>
