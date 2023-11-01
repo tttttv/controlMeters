@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-
+import json
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
 
@@ -32,14 +32,8 @@ def chirpstack_callback_view(request):
     print(request.body)
 
 
-    body = request.body
-
-    if request.GET['event'] == 'join':
-        join = unmarshal(body, integration.JoinEvent())
-        print("Device: %s joined with DevAddr: %s" % (join.device_info.dev_eui, join.dev_addr))
-    else:
-        up = unmarshal(body, integration.UplinkEvent())
-        print("Uplink received from: %s with payload: %s" % (up.device_info.dev_eui, up.data.hex()))
-
+    body = request.body.decode()
+    data = json.loads(body)
+    print(data)
 
     return HttpResponse(status=200)
