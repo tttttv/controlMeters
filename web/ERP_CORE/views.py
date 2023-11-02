@@ -23,7 +23,7 @@ def index_view(request):
         ],
     }
     for meter in meters:
-        last_data = MeterData.objects.filter(meter=meter).order_by('-dt')
+        last_data = MeterData.objects.filter(meter=meter).order_by('-dt').first()
 
         params['meters'].append({
             'name': meter.name,
