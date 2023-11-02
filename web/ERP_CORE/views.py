@@ -8,6 +8,13 @@ from ERP_CORE.models import WaterMeter, MeterData
 from chirpstack_api import integration
 from google.protobuf.json_format import Parse
 
+import base64
+import datetime
+
+def hex_to_little_endian(hex_string):
+    little_endian_hex = bytearray.fromhex(hex_string)[::-1]
+    return ''.join(f"{n:02X}" for n in little_endian_hex)
+
 def index_view(request):
     meters = WaterMeter.objects.all()
     meters_data = MeterData.objects.all()
@@ -32,8 +39,30 @@ def chirpstack_callback_view(request):
     print(request.body)
 
 
+
     body = request.body.decode()
     data = json.loads(body)
     print(data)
+    if request.GET['event'] == 'up':
+        print('data')
+        dt = data['time']
+        dt = datetime.datetime.fromisoformat(dt)
+
+        eui = data['deviceInfo']['devEui']
+
+        meter_value = data['data']
+        meter_value = base64.b64decode(meter_value).hex()
+        #meter_value = meter_value[10:18]
+        meter_value = meter_value[2:10]
+        meter_value = hex_to_little_endian(meter_value)
+        meter_value = int(meter_value, 16)
+
+        wm = WaterMeter.objects.get(uid=eui)
+        md = MeterData(meter=wm, value=meter_value, dt=dt)
+        md.save()
+
+    elif request.GET['event'] == 'join':
+        print('join')
+
 
     return HttpResponse(status=200)
