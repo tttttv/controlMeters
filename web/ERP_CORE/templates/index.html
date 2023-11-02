@@ -31,7 +31,7 @@
                         {% for meter in meters %}
                         <tr>
                             <td>{{ meter.name }}</td>
-                            <td> <a href="{% url 'meter' pk=meter.eui %}">{{ meter.eui }}</a> </td>
+                            <td> <a href="{% url 'meter' pk=meter.id %}">{{ meter.eui }}</a> </td>
                             <td> {{ meter.last_value }} л.</td>
                             <td> {{ meter.last_dt }}</td>
                         </tr>

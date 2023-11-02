@@ -26,6 +26,7 @@ def index_view(request):
         last_data = MeterData.objects.filter(meter=meter).order_by('-dt').first()
 
         params['meters'].append({
+            'id': meter.id,
             'name': meter.name,
             'eui': meter.eui,
             'last_value': last_data.value if last_data else None,
