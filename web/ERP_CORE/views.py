@@ -36,8 +36,11 @@ def index_view(request):
     return render(request, 'index.html', params)
 
 def meter_profile_view(request, pk):
+    meter = WaterMeter.objects.get(id=pk)
+    data = MeterData.objects.filter(meter=meter).order_by('-dt')
     params = {
-
+        'meter': meter,
+        'data': data
     }
     return render(request, 'meter_profile.html', params)
 

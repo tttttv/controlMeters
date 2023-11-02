@@ -1,10 +1,52 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block title %}Профиль счетчика{% endblock %}
+
+
+{% block content %}
+
+<div class="page-title-box">
+    <div class="page-title-right">
+    </div>
+    <h4 class="page-title">Профиль счетчика</h4>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h3>Параметры счетчика</h3>
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                    <label>Название</label>
+                        <input class="mb-2" placeholder="name" name="name" value="{{ meter.name }}" autocomplete="off">
+                    </div>
+                    <div>
+                        <input type="submit" class="btn btn-primary" value="Сохранить">
+                    </div>
+                </form>
+                <h3 class="mb-3">
+                    Последние показания счетчика
+                    <button class="btn btn-success ms-2 pt-0 pb-0 ps-2 pe-2 inspection_create_button" data-bs-toggle="modal" data-bs-target="#add_owner"><i class="uil-plus"></i></button>
+                </h3>
+                <table class="table table-centered dataTable">
+                    <thead>
+                        <tr>
+                            <th>Значение</th>
+                            <th>Дата</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for d in data %}
+                            <tr>
+                                <td> {{ d.value }} л.</td>
+                                <td> {{ d.dt }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
