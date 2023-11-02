@@ -17,20 +17,28 @@ def hex_to_little_endian(hex_string):
 
 def index_view(request):
     meters = WaterMeter.objects.all()
-    meters_data = MeterData.objects.all()
-
     params = {
-        'meters': meters,
-        'meters_data': meters_data,
+        'meters': [
+
+        ],
     }
+    for meter in meters:
+        last_data = MeterData.objects.filter(meter=meter).order_by('dt-')
+
+        params['meters'].append({
+            'name': meter.name,
+            'eui': meter.eui,
+            'last_value': last_data.value if last_data else None,
+            'last_dt': last_data.dt.strftime('%d.%m.%Y %H:%M:%S') if last_data else None,
+        })
+
     return render(request, 'index.html', params)
 
-def unmarshal(body, pl):
-    if False:
-        return Parse(body, pl)
+def meter_profile_view(request, pk):
+    params = {
 
-    pl.ParseFromString(body)
-    return pl
+    }
+    return render(request, 'meter_profile.html', params)
 
 @csrf_exempt
 def chirpstack_callback_view(request):
@@ -62,7 +70,7 @@ def chirpstack_callback_view(request):
         meter_value = int(meter_value, 16)
         print(meter_value, 'result')
 
-        wm = WaterMeter.objects.get(uid=eui)
+        wm = WaterMeter.objects.get(eui=eui)
         md = MeterData(meter=wm, value=meter_value / 1000, dt=dt)
         md.save()
 

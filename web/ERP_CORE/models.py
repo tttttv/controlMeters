@@ -3,7 +3,8 @@ import datetime
 # Create your models here.
 
 class WaterMeter(models.Model):
-    uid = models.CharField(max_length=100, unique=True)
+    eui = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, default='Без имени')
 
 class MeterData(models.Model):
     meter = models.ForeignKey(WaterMeter, on_delete=models.CASCADE)
