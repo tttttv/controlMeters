@@ -63,7 +63,7 @@ def chirpstack_callback_view(request):
         print(meter_value, 'result')
 
         wm = WaterMeter.objects.get(uid=eui)
-        md = MeterData(meter=wm, value=meter_value, dt=dt)
+        md = MeterData(meter=wm, value=meter_value / 1000, dt=dt)
         md.save()
 
     elif request.GET['event'] == 'join':
