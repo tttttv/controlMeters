@@ -51,11 +51,16 @@ def chirpstack_callback_view(request):
         eui = data['deviceInfo']['devEui']
 
         meter_value = data['data']
+        print(meter_value, 'base64')
         meter_value = base64.b64decode(meter_value).hex()
+        print(meter_value, 'hex')
         #meter_value = meter_value[10:18]
         meter_value = meter_value[2:10]
+        print(meter_value, 'raw')
         meter_value = hex_to_little_endian(meter_value)
+        print(meter_value, 'little')
         meter_value = int(meter_value, 16)
+        print(meter_value, 'result')
 
         wm = WaterMeter.objects.get(uid=eui)
         md = MeterData(meter=wm, value=meter_value, dt=dt)

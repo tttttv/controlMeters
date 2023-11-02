@@ -1,57 +1,10 @@
+import requests
 
-# This must point to the API interface.
-server = "51.250.78.89:8080"
+d = b'{"deduplicationId":"5c2385a4-8b58-4d50-93da-0eda4ddba14e","time":"2023-10-30T20:13:02.608+00:00","deviceInfo":{"tenantId":"52f14cd4-c6f1-4fbd-8f87-4025e1d49242","tenantName":"ChirpStack","applicationId":"f7cf6e15-a9a8-41e8-a485-4435e6f75d4d","applicationName":"new lora","deviceProfileId":"ba01efc2-cebd-44ba-92ef-51739cc16960","deviceProfileName":"lora water meter","deviceName":"8CC30232011A52CF","devEui":"8cc30232011a52cf","tags":{}},"devAddr":"017d4f1a","adr":true,"dr":4,"fCnt":16,"fPort":10,"confirmed":false,"data":"AgEoBiNrBwAAAAAAAAAAdwEAAAA=","rxInfo":[{"gatewayId":"028166fffe6a29fd","uplinkId":34476,"time":"2023-10-30T20:13:02.608474+00:00","timeSinceGpsEpoch":"1382732000.608s","rssi":-50,"snr":-8.2,"channel":3,"location":{},"context":"L/VZ2g==","metadata":{"region_common_name":"EU868","region_config_id":"eu868"},"crcStatus":"CRC_OK"}],"txInfo":{"frequency":867100000,"modulation":{"lora":{"bandwidth":125000,"spreadingFactor":8,"codeRate":"CR_4_5"}}}}'
+params = {
+  'event': 'up'
+}
+url = 'http://51.250.83.110/chirpstack'
 
-# The DevEUI for which you want to enqueue the downlink.
-dev_eui = "8a22233201314d19"
-
-# The API token (retrieved using the web-interface).
-api_token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjaGlycHN0YWNrIiwiaXNzIjoiY2hpcnBzdGFjayIsInN1YiI6IjY3ZGM3NjI1LWZkODctNDEzOS1hYTg1LTg0YjQ4ZDJmODQxZSIsInR5cCI6ImtleSJ9.C4920IZCJ4iAZBPdIaHqrl5f0bUIHDEZIJN0AKymCvM"
-
-
-
-
-
-
-
-
-
-
-import os
-import sys
-
-import grpc
-from chirpstack_api.as_pb.external import api
-
-# Configuration.
-
-# This must point to the API interface.
-server = "localhost:8080"
-
-# The DevEUI for which you want to enqueue the downlink.
-dev_eui = bytes([0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01])
-
-# The API token (retrieved using the web-interface).
-api_token = "..."
-
-if __name__ == "__main__":
-  # Connect without using TLS.
-  channel = grpc.insecure_channel(server)
-
-  # Device-queue API client.
-  client = api.DeviceQueueServiceStub(channel)
-
-  # Define the API key meta-data.
-  auth_token = [("authorization", "Bearer %s" % api_token)]
-
-  # Construct request.
-  req = api.EnqueueDeviceQueueItemRequest()
-  req.device_queue_item.confirmed = False
-  req.device_queue_item.data = bytes([0x01, 0x02, 0x03])
-  req.device_queue_item.dev_eui = dev_eui.hex()
-  req.device_queue_item.f_port = 10
-
-  resp = client.Enqueue(req, metadata=auth_token)
-
-  # Print the downlink frame-counter value.
-  print(resp.f_cnt)
+r = requests.post(url=url, params=params, data=d)
+print(r.status_code)
