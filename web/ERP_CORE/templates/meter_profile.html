@@ -17,11 +17,11 @@
                 <h3>Параметры счетчика</h3>
                 <form method="post">
                     {% csrf_token %}
-                    <div>
-                    <label>Название</label>
+                    <div class="mt-3">
+                        <label>Название</label>
                         <input class="mb-2" placeholder="name" name="name" value="{{ meter.name }}" autocomplete="off">
                     </div>
-                    <div>
+                    <div class="mb-5">
                         <input type="submit" class="btn btn-primary" value="Сохранить">
                     </div>
                 </form>

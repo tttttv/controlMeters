@@ -37,6 +37,11 @@ def index_view(request):
 
 def meter_profile_view(request, pk):
     meter = WaterMeter.objects.get(id=pk)
+
+    if request.POST:
+        meter.name = request.POST.get('name', 'Без имени')
+        meter.save()
+
     data = MeterData.objects.filter(meter=meter).order_by('-dt')
     params = {
         'meter': meter,
