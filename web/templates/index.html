@@ -1,0 +1,45 @@
+ extends 'base.html' %}
+
+ {% block title %}Управление ControlMeters{% endblock %}
+
+
+ {% block content %}
+
+ <div class="page-title-box">
+     <div class="page-title-right">
+     </div>
+     <h4 class="page-title">Управление ControlMeters</h4>
+ </div>
+ <div class="row">
+     <div class="col-md-12">
+         <div class="card">
+             <div class="card-body">
+                 <h3 class="mb-3">
+                     Последние показания счетчиков
+                     <button class="btn btn-success ms-2 pt-0 pb-0 ps-2 pe-2 inspection_create_button" data-bs-toggle="modal" data-bs-target="#add_owner"><i class="uil-plus"></i></button>
+                 </h3>
+                 <table class="table table-centered dataTable">
+                     <thead>
+                         <tr>
+                             <th>Название</th>
+                             <th>id</th>
+                             <th>Последнее значение</th>
+                             <th>Последняя передача данных</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         {% for meter in meters %}
+                         <tr>
+                             <td>{{ meter.name }}</td>
+                             <td> <a href="{% url 'meter' pk=meter.id %}">{{ meter.eui }}</a> </td>
+                             <td> {{ meter.last_value }} л.</td>
+                             <td> {{ meter.last_dt }}</td>
+                         </tr>
+                         {% endfor %}
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+     </div>
+ </div>
+ {% endblock %}
