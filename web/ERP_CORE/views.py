@@ -63,7 +63,7 @@ def chirpstack_callback_view(request):
     if request.GET['event'] == 'up':
         print('data')
         dt = data['time']
-        dt = datetime.datetime.fromisoformat(dt)
+        dt = datetime.datetime.strptime(dt[:26], "%Y-%m-%dT%H:%M:%S.%f")
 
         eui = data['deviceInfo']['devEui']
 
